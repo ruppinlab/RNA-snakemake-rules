@@ -49,7 +49,8 @@ rule run_kallisto:
     output:
         "results/kallisto/{patient}-{sample}/abundances.h5"
     params:
-        extra = kallisto_params
+        extra = kallisto_params,
+        odir = "results/kallisto/{patient}-{sample}"
     shell:
-        "kallisto quant -i '{input.idx}' -o '{output}' {params.extra} "
+        "kallisto quant -i '{input.idx}' -o '{params.odir}' {params.extra} "
         "'{input.fq1}' '{input.fq2}' 2> {log}"
