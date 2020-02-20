@@ -15,12 +15,12 @@ GDC_GENOME_FASTA_URL = join(GDC_DATA_BASE_URL,
 GDC_GTF_URL = join(GDC_DATA_BASE_URL, "25aa497c-e615-4cb7-8751-71f744f9691f")
 
 # files
-GDC_GENOME_FASTA_TARGZ_FILE = join("genome", "raw", "GRCh38.d1.vd1.fa.tar.gz")
-GDC_GENOME_FASTA_FILE = join("genome", "raw", "GRCh38.d1.vd1.fa")
-GDC_GTF_FILE = join("genome", "raw", "gencode.v22.annotation.gtf")
-GENCODE_TRANSCRIPT_FASTA_FILE = join("genome", "raw", "gencode.v32.transcripts.fa.gz")
-GENCODE_GENOME_FASTA_FILE = join("genome", "raw", "GRCh38.p13.genome.fa")
-GENCODE_GTF_FILE = join("genome", "raw", "gencode.v32.annotation.gtf")
+GDC_GENOME_FASTA_TARGZ_FILE = join("raw", "genome", "GRCh38.d1.vd1.fa.tar.gz")
+GDC_GENOME_FASTA_FILE = join("raw", "genome", "GRCh38.d1.vd1.fa")
+GDC_GTF_FILE = join("raw", "genome", "gencode.v22.annotation.gtf")
+GENCODE_TRANSCRIPT_FASTA_FILE = join("raw", "genome", "gencode.v32.transcripts.fa.gz")
+GENCODE_GENOME_FASTA_FILE = join("raw", "genome", "GRCh38.p13.genome.fa")
+GENCODE_GTF_FILE = join("raw", "genome", "gencode.v32.annotation.gtf")
 
 
 # rules for downloading reference sequence and annoation files
