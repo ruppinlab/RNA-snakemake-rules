@@ -1,6 +1,6 @@
 from os.path import join
 
-KALLISTO_ENV_FILE = join("..", "envs", "kallisto.yaml")
+KALLISTO_ENV_FILE = join("..", "envs", "kallisto.yml")
 KALLISTO_INDEX_FILE = join("results", "kallisto", "transcripts.idx")
 
 def get_fq(wildcards):
@@ -42,7 +42,7 @@ rule run_kallisto:
     conda:
         KALLISTO_ENV_FILE
     log:
-        "results/logs/kallisto/quant/{sample}-{unit}.log"
+        "results/logs/kallisto/quant/{patient}-{sample}.log"
     input:
         unpack(get_fq),
         idx = KALLISTO_INDEX_FILE
