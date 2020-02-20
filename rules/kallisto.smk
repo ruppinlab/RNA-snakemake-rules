@@ -47,7 +47,7 @@ rule run_kallisto:
         unpack(get_fq),
         idx = KALLISTO_INDEX_FILE
     output:
-        "output/kallisto/{patient}-{sample}/abundances.h5"
+        "output/kallisto/{patient}-{sample}/abundance.h5"
     params:
         extra = kallisto_params,
         odir = "output/kallisto/{patient}-{sample}"
