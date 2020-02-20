@@ -47,7 +47,7 @@ rule run_kallisto:
         unpack(get_fq),
         idx = KALLISTO_INDEX_FILE
     output:
-        directory("results/kallisto/{patient}-{sample}")
+        "results/kallisto/{patient}-{sample}/abundances.h5"
     params:
         extra = kallisto_params
     shell:
