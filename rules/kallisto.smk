@@ -30,7 +30,7 @@ rule create_kallisto_index:
     conda:
         KALLISTO_ENV_FILE
     log:
-        "results/logs/kallisto/index.log"
+        "output/logs/kallisto/index.log"
     input:
         config["ref"]["transcriptome"]
     output:
@@ -42,15 +42,15 @@ rule run_kallisto:
     conda:
         KALLISTO_ENV_FILE
     log:
-        "results/logs/kallisto/quant/{patient}-{sample}.log"
+        "output/logs/kallisto/quant/{patient}-{sample}.log"
     input:
         unpack(get_fq),
         idx = KALLISTO_INDEX_FILE
     output:
-        "results/kallisto/{patient}-{sample}/abundances.h5"
+        "output/kallisto/{patient}-{sample}/abundances.h5"
     params:
         extra = kallisto_params,
-        odir = "results/kallisto/{patient}-{sample}"
+        odir = "output/kallisto/{patient}-{sample}"
     shell:
         "kallisto quant -i '{input.idx}' -o '{params.odir}' {params.extra} "
         "'{input.fq1}' '{input.fq2}' 2> {log}"

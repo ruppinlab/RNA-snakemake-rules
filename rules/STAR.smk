@@ -4,7 +4,7 @@ import json
 
 # Directories
 ENV_DIR = join("..", "envs")
-STAR_OUTPUT_DIR = "star"
+STAR_OUTPUT_DIR = join("output", "star", "{patient}-{sample}")
 STAR_PASS1_OUTPUT_DIR = join(STAR_OUTPUT_DIR, "_STARpass1")
 STAR_PASS2_OUTPUT_DIR = join(STAR_OUTPUT_DIR, "_STARpass2")
 STAR_PE_OUTPUT_DIR = join(STAR_OUTPUT_DIR, "_STARpe")
@@ -12,24 +12,18 @@ STAR_PE_OUTPUT_DIR = join(STAR_OUTPUT_DIR, "_STARpe")
 STAR_ENV_FILE = join(ENV_DIR, "star.yml")
 
 # STAR output directories
-STAR_GENOME_INDEX = join("STAR", "genome")
+STAR_GENOME_INDEX = join("output", "star-index")
 
 # Intemediate Files
-STAR_PASS1_SJ_FILE = join(STAR_PASS1_OUTPUT_DIR, "{patient}.{sample}",
-                          "SJ.out.tab")
-STAR_PASS1_SJ_FILTERED_FILE = join(STAR_PASS1_OUTPUT_DIR, "{patient}.{sample}",
-                                   "SJ.filtered.out.tab")
-READLENGTH_HISTOGRAM = join(STAR_OUTPUT_DIR,
-                            "{patient}.{sample}-read-length-histogram.tsv")
-SAMPLE_METADATA = join(STAR_OUTPUT_DIR, "{patient}.{sample}-sample-metadata.json")
+STAR_PASS1_SJ_FILE = join(STAR_PASS1_OUTPUT_DIR, "SJ.out.tab")
+STAR_PASS1_SJ_FILTERED_FILE = join(STAR_PASS1_OUTPUT_DIR, "SJ.filtered.out.tab")
+READLENGTH_HISTOGRAM = join(STAR_OUTPUT_DIR, "read-length-histogram.tsv")
+SAMPLE_METADATA = join(STAR_OUTPUT_DIR, "sample-metadata.json")
 # Output Files
-STAR_PASS2_BAM_FILE = join(STAR_PASS2_OUTPUT_DIR, "{patient}.{sample}",
-                           "Aligned.out.bam")
-STAR_PASS2_READCOUNT_FILE = join(STAR_PASS2_OUTPUT_DIR, "{patient}.{sample}",
-                                 "ReadsPerGene.out.tab")
-STAR_BAM_FILE = join(STAR_PE_OUTPUT_DIR, "{patient}.{sample}", "Aligned.out.bam")
-STAR_READCOUNT_FILE = join(STAR_PE_OUTPUT_DIR, "{patient}.{sample}",
-                           "ReadsPerGene.out.tab")
+STAR_PASS2_BAM_FILE = join(STAR_PASS2_OUTPUT_DIR, "Aligned.out.bam")
+STAR_PASS2_READCOUNT_FILE = join(STAR_PASS2_OUTPUT_DIR, "ReadsPerGene.out.tab")
+STAR_BAM_FILE = join(STAR_PE_OUTPUT_DIR, "Aligned.out.bam")
+STAR_READCOUNT_FILE = join(STAR_PE_OUTPUT_DIR, "ReadsPerGene.out.tab")
 
 # set localrules
 localrules: compute_max_readlength
@@ -58,7 +52,7 @@ rule create_star_index:
     conda:
         STAR_ENV_FILE
     input:
-        GENOME_FASTA_FILE
+        config["ref"]["genome"]
     output:
         directory(STAR_GENOME_INDEX)
     threads:
@@ -89,13 +83,13 @@ rule run_star_pe:
     input:
         unpack(get_fq),
         index = STAR_GENOME_INDEX,
-        gtf = GTF_FILE,
+        gtf = config["ref"]["annotation"],
         metadata = SAMPLE_METADATA
     output:
         STAR_BAM_FILE,
         STAR_READCOUNT_FILE
     params:
-        odir = join(STAR_OUTPUT_DIR, ""),
+        odir = join(STAR_PE_OUTPUT_DIR, ""),
         sjdbOverhang = lambda wildcards, input: get_sjdbOverhang(input.metadata)
     threads:
         48
@@ -142,12 +136,12 @@ rule run_star_pe_pass1:
     input:
         unpack(get_fq),
         index = STAR_GENOME_INDEX,
-        gtf = GTF_FILE,
+        gtf = config["ref"]["annotation"],
         metadata = SAMPLE_METADATA
     output:
         STAR_PASS1_SJ_FILE
     params:
-        odir = join(STAR_PASS1_OUTPUT_DIR, "{patient}.{sample}", ""),
+        odir = join(STAR_PASS1_OUTPUT_DIR, ""),
         sjdbOverhang = lambda wildcards, input: get_sjdbOverhang(input.metadata)
     threads:
         48
@@ -195,14 +189,14 @@ rule run_star_pe_pass2:
     input:
         unpack(get_fq),
         index = STAR_GENOME_INDEX,
-        gtf = GTF_FILE,
+        gtf = config["ref"]["annotation"],
         sj = STAR_PASS1_SJ_FILTERED_FILE,
         metadata = SAMPLE_METADATA
     output:
         STAR_PASS2_BAM_FILE,
         STAR_PASS2_READCOUNT_FILE
     params:
-        odir = join(STAR_PASS2_OUTPUT_DIR, "{patient}.{sample}", ""),
+        odir = join(STAR_PASS2_OUTPUT_DIR, ""),
         sjdbOverhang = lambda wildcards, input: get_sjdbOverhang(input.metadata)
     threads:
         48

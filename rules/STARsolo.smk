@@ -2,7 +2,8 @@ from os.path import join
 
 # Directories
 ENV_DIR = join("..", "envs")
-STAR_GENOME_INDEX = join("STAR", "genome")
+STAR_GENOME_INDEX = join("output", "star-index")
+STAR_SOLO_OUTPUT = join("output", "STARsolo", "{patient}-{sample}")
 
 # Files
 STAR_ENV_FILE = join(ENV_DIR, "star.yml")
@@ -12,7 +13,7 @@ rule create_star_index:
     conda:
         STAR_ENV_FILE
     input:
-        GENOME_FASTA_FILE
+        config["ref"]["genome"]
     output:
         directory(STAR_GENOME_INDEX)
     threads:
@@ -33,12 +34,12 @@ rule run_STARsolo_10x:
         cDNA_fq = cDNA_FASTQ_FILE,
         CellBarcode_fq = CellBarcode_FASTQ_FILE,
         index = STAR_GENOME_INDEX,
-        gtf = GTF_FILE
+        gtf = config["ref"]["annotation"]
     output:
-        join("STARsolo", "{patient}.{sample}", "Aligned.sortedByCoord.out.bam"),
-        join("STARsolo", "{patient}.{sample}", "Solo.out", "Gene", "filtered", "matrix.mtx")
+        join(STAR_SOLO_OUTPUT, "Aligned.sortedByCoord.out.bam"),
+        join(STAR_SOLO_OUTPUT, "Solo.out", "Gene", "filtered", "matrix.mtx")
     params:
-        odir = "STARsolo/{patient}.{sample}/"
+        odir = join(STAR_SOLO_OUTPUT, "")
     threads:
         48
     shell:
