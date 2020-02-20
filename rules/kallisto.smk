@@ -6,12 +6,12 @@ KALLISTO_INDEX_FILE = join("results", "kallisto", "transcripts.idx")
 def get_fq(wildcards):
     if config["trimming"]["skip"]:
         # no trimming, use raw reads
-        dir = "data"
+        dir = join("FASTQ", "raw")
     else:
-        dir = "trimmed"
+        dir = join("FASTQ", "trimmed")
     return {
-        'fq1': join(dir, "{wildcards.patient}.{wildcards.sample}_1.fastq.gz".format(wildcards=wildcards)),
-        'fq2': join(dir, "{wildcards.patient}.{wildcards.sample}_2.fastq.gz".format(wildcards=wildcards))
+        'fq1': join(dir, "{wildcards.patient}-{wildcards.sample}_1.fastq.gz".format(wildcards=wildcards)),
+        'fq2': join(dir, "{wildcards.patient}-{wildcards.sample}_2.fastq.gz".format(wildcards=wildcards))
         }
 
 def kallisto_params(wildcards, input):
