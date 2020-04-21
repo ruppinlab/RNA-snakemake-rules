@@ -26,7 +26,7 @@ STAR_BAM_FILE = join(STAR_PE_OUTPUT_DIR, "Aligned.out.bam")
 STAR_READCOUNT_FILE = join(STAR_PE_OUTPUT_DIR, "ReadsPerGene.out.tab")
 
 # set localrules
-localrules: compute_max_readlength
+localrules: compute_max_readlength, calculate_max_read_length, run_star_filter_sj_pass1
 
 # functions
 def get_sjdbOverhang(file):
