@@ -2,8 +2,8 @@ from os.path import join
 
 # Directories
 ENV_DIR = join("..", "envs")
-STAR_GENOME_INDEX = join("output", "star-index")
-STAR_SOLO_OUTPUT = join("output", "STARsolo", "{patient}-{sample}")
+STAR_GENOME_INDEX = config["STARsolo"]["genome_index"]
+STAR_SOLO_OUTPUT = config["STARsolo"]["output_dir"]
 
 # Files
 STAR_ENV_FILE = join(ENV_DIR, "star.yml")
