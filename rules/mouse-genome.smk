@@ -3,15 +3,15 @@ from os.path import join
 
 # URLs
 GENCODE_MOUSE_BASE_URL = (
-    "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M24")
+    "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M25")
 
 GENCODE_MOUSE_GENOME_FASTA_URL = join(GENCODE_MOUSE_BASE_URL,
-                                "GRCm38.p6.genome.fa.gz")
+                                "GRCm38.primary_assembly.genome.fa.gz")
 GENCODE_MOUSE_GTF_URL = join(GENCODE_MOUSE_BASE_URL,
-                       "gencode.vM24.annotation.gtf.gz")
+                       "gencode.vM25.annotation.gtf.gz")
 # output files
-GENCODE_MOUSE_GENOME_FASTA_FILE = join("raw", "genome", "mouse", "GRCm38.p6.genome.fa")
-GENCODE_MOUSE_GTF_FILE = join("raw", "genome", "mouse", "gencode.vM24.annotation.gtf")
+GENCODE_MOUSE_GENOME_FASTA_FILE = join("raw", "genome", "mouse", "GRCm38.primary_assembly.genome.fa")
+GENCODE_MOUSE_GTF_FILE = join("raw", "genome", "mouse", "gencode.vM25.annotation.gtf")
 
 
 rule download_gencode_genome_fasta:
