@@ -33,4 +33,4 @@ rule cellranger_count:
         "--transcriptome=$CELLRANGER_REF300/GRCh38 "
         "--localcores=$SLURM_CPUS_PER_TASK "
         "--chemistry=SC3Pv2 "
-        "--localmem=34"
+        "--localmem=60"
