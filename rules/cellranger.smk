@@ -9,11 +9,11 @@ IDX_FASTQ_FILE = join(PATIENT_FASTQ_DIR, "{sample}_{lane}_I1_001.fastq.gz")
 CR_BAM_FILE = join(CR_SAMPLE_ODIR, "outs", "possorted_genome_bam.bam")
 
 def get_cellranger_fq_files(wildcards):
-    lanes = lanes.loc[(wildcards.patient, wildcards.sample), "lane"]
+    lanes_of_interest = lanes.loc[(wildcards.patient, wildcards.sample), "lane"]
     return {
-        "CB": expand(CB_FASTQ_FILE, patient=wildcards.patient, sample=wildcards.sample, lane=lanes),
-        "cDNA": expand(cDNA_FASTQ_FILE, patient=wildcards.patient, sample=wildcards.sample, lane=lanes),
-        "IDX": expand(IDX_FASTQ_FILE, patient=wildcards.patient, sample=wildcards.sample, lane=lanes),
+        "CB": expand(CB_FASTQ_FILE, patient=wildcards.patient, sample=wildcards.sample, lane=lanes_of_interest),
+        "cDNA": expand(cDNA_FASTQ_FILE, patient=wildcards.patient, sample=wildcards.sample, lane=lanes_of_interest),
+        "IDX": expand(IDX_FASTQ_FILE, patient=wildcards.patient, sample=wildcards.sample, lane=lanes_of_interest),
     }
 
 # expected input format for FASTQ file
