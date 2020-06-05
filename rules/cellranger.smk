@@ -3,9 +3,9 @@ from os.path import join
 PATIENT_FASTQ_DIR = join("FASTQ", "raw", "{patient}")
 CR_SAMPLE_ODIR = join("output", "CellRanger", "{patient}-{sample}")
 
-CB_FASTQ_FILE = join(PATIENT_FASTQ_DIR, "{sample}_{lane}_R1_001.fastq.gz")
-cDNA_FASTQ_FILE = join(PATIENT_FASTQ_DIR, "{sample}_{lane}_R2_001.fastq.gz")
-IDX_FASTQ_FILE = join(PATIENT_FASTQ_DIR, "{sample}_{lane}_I1_001.fastq.gz")
+CB_FASTQ_FILE = join(PATIENT_FASTQ_DIR, "{sample}_S1_{lane}_R1_001.fastq.gz")
+cDNA_FASTQ_FILE = join(PATIENT_FASTQ_DIR, "{sample}_S1_{lane}_R2_001.fastq.gz")
+IDX_FASTQ_FILE = join(PATIENT_FASTQ_DIR, "{sample}_S1_{lane}_I1_001.fastq.gz")
 CR_BAM_FILE = join(CR_SAMPLE_ODIR, "outs", "possorted_genome_bam.bam")
 
 def get_cellranger_fq_files(wildcards):
