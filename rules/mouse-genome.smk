@@ -10,8 +10,8 @@ GENCODE_MOUSE_GENOME_FASTA_URL = join(GENCODE_MOUSE_BASE_URL,
 GENCODE_MOUSE_GTF_URL = join(GENCODE_MOUSE_BASE_URL,
                        "gencode.vM25.annotation.gtf.gz")
 # output files
-GENCODE_MOUSE_GENOME_FASTA_FILE = join("raw", "genome", "mouse", "GRCm38.primary_assembly.genome.fa")
-GENCODE_MOUSE_GTF_FILE = join("raw", "genome", "mouse", "gencode.vM25.annotation.gtf")
+GENCODE_MOUSE_GENOME_FASTA_FILE = join("raw", "genome", "GRCm38.primary_assembly.genome.fa")
+GENCODE_MOUSE_GTF_FILE = join("raw", "genome", "gencode.vM25.annotation.gtf")
 
 
 rule download_gencode_genome_fasta:
