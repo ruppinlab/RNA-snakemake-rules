@@ -1,7 +1,9 @@
 from os.path import join
 
 PATIENT_FASTQ_DIR = join("FASTQ", "raw", "{patient}")
-CR_SAMPLE_ODIR = join("output", "CellRanger", "{patient}-{sample}")
+
+# cellranger complains when you pass directory as --id
+CR_SAMPLE_ODIR = "{patient}-{sample}"
 
 CB_FASTQ_FILE = join(PATIENT_FASTQ_DIR, "{sample}_S1_{lane}_R1_001.fastq.gz")
 cDNA_FASTQ_FILE = join(PATIENT_FASTQ_DIR, "{sample}_S1_{lane}_R2_001.fastq.gz")
@@ -22,15 +24,19 @@ rule cellranger_count:
         unpack(get_cellranger_fq_files)
     params:
         PATIENT_FASTQ_DIR,
-        CR_SAMPLE_ODIR
+        CR_SAMPLE_ODIR,
+        config["CellRanger"]["genome_dir"],
+        config["CellRanger"]["chemistry"]
     output:
         CR_BAM_FILE
     shell:
         "module load cellranger && "
+        # snakemake auto creates directories for output files but cellranger expects existing directories to pipestance directory
+        "rm -rf {params[1]} && "
         "cellranger count --id={params[1]} "
         "--fastqs={params[0]} " # this is the path to the directory containing the FASTQ files
         "--sample={wildcards.sample} " # this is the sample to use
-        "--transcriptome=$CELLRANGER_REF300/GRCh38 "
+        "--transcriptome={params[2]} "
         "--localcores=$SLURM_CPUS_PER_TASK "
-        "--chemistry=SC3Pv2 "
+        "--chemistry={params[3]} "
         "--localmem=60"
