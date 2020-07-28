@@ -17,6 +17,7 @@ from os.path import join
 GENCODE_HUMAN_BASE_URL = (
     "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34")
 GENCODE_CHR_GTF_URL = join(GENCODE_HUMAN_BASE_URL, "gencode.v34.annotation.gtf.gz")
+GENCODE_PRI_GTF_URL = join(GENCODE_HUMAN_BASE_URL, "gencode.v34.primary_assembly.annotation.gtf.gz")
 GENCODE_ALL_GTF_URL = join(GENCODE_HUMAN_BASE_URL, "gencode.v34.chr_patch_hapl_scaff.annotation.gtf.gz")
 # ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34/GRCh38.p13.genome.fa.gz
 GENCODE_PRIMARY_GENOME_FASTA_URL = join(GENCODE_HUMAN_BASE_URL, "GRCh38.primary_assembly.genome.fa.gz")
@@ -34,6 +35,7 @@ GENOME_DIR = join("raw", "genome")
 # files
 # GENCODE files
 GENCODE_CHR_GTF = join(GENOME_DIR, "gencode.v34.annotation.gtf")
+GENCODE_PRI_GTF = join(GENOME_DIR, "gencode.v34.primary_assembly.annotation.gtf")
 GENCODE_ALL_GTF = join(GENOME_DIR, "gencode.v34.chr_patch_hapl_scaff.annotation.gtf")
 GENCODE_GENOME_FASTA = join(GENOME_DIR, "GRCh38.p13.genome.fa")
 GENCODE_PRIMARY_GENOME_FASTA = join(GENOME_DIR, "GRCh38.primary_assembly.genome.fa")
@@ -92,5 +94,13 @@ rule download_gencode_ALL_gtf:
         GENCODE_ALL_GTF_URL
     output:
         GENCODE_ALL_GTF
+    shell:
+        "wget -O - {params} | gunzip -c > {output}"
+
+rule download_gencode_PRI_gtf:
+    params:
+        GENCODE_PRI_GTF_URL
+    output:
+        GENCODE_PRI_GTF
     shell:
         "wget -O - {params} | gunzip -c > {output}"
