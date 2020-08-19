@@ -27,9 +27,9 @@ rule run_fastp:
         FASTQ1_FILE,
         FASTQ2_FILE
     output:
-        temp(TRIMMED_FASTQ1_FILE),
-        temp(TRIMMED_FASTQ2_FILE),
-        temp(TRIMMED_UNPAIRED_FILE),
+        TRIMMED_FASTQ1_FILE,
+        TRIMMED_FASTQ2_FILE,
+        TRIMMED_UNPAIRED_FILE,
         FAILED_READS_FILE,
         FASTP_JSON_REPORT,
         FASTP_HTML_REPORT
@@ -40,6 +40,7 @@ rule run_fastp:
         "--unqualified_percent_limit 40 " # filter reads where 40% of bases have phred quality < 15
         "--cut_tail " # use defaults --cut_window_size 4 --cut_mean_quality 20
         "--low_complexity_filter " # filter reads with less than 30% complexity (30% of the bases are different from the preceeding base)
+        "--length_required 25 "
         "-i {input[0]} -I {input[1]} -o {output[0]} -O {output[1]} "
         "--unpaired1 {output[2]} --unpaired2 {output[2]} --failed_out {output[3]} "
         "-j {output[4]} -h {output[5]}"
