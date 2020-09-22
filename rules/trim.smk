@@ -35,6 +35,8 @@ rule run_fastp:
         FASTP_HTML_REPORT
     threads:
         6
+    benchmark:
+        "benchmarks/{patient}-{sample}.run_fastp.benchmark.txt"
     shell:
         "fastp -w {threads} "
         "--unqualified_percent_limit 40 " # filter reads where 40% of bases have phred quality < 15
