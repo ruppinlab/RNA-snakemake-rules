@@ -17,7 +17,7 @@ rule generate_manifest_file:
     output:
         PE_MANIFEST_FILE
     script:
-        "src/generate_manifest_file.py"
+        "../src/generate_manifest_file.py"
 
 def get_pe_fq_files(wildcards):
     c = cells.loc[(cells.patient == wildcards.patient) & (cells.plate == wildcards.plate)]
