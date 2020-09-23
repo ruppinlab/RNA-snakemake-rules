@@ -6,16 +6,16 @@ FASTQ_DIR = "FASTQ"
 DATA_DIR = "data"
 TRIMMED_DIR = "trimmed"
 # input files
-FASTQ1_FILE = join(FASTQ_DIR, "raw", "{patient}-{sample}_1.fastq.gz")
-FASTQ2_FILE = join(FASTQ_DIR, "raw", "{patient}-{sample}_2.fastq.gz")
+FASTQ1_FILE = join(FASTQ_DIR, "raw", "{patient}-{sample}-{cell}_1.fastq.gz")
+FASTQ2_FILE = join(FASTQ_DIR, "raw", "{patient}-{sample}-{cell}_2.fastq.gz")
 
 # output files
-FASTP_JSON_REPORT = join(FASTQ_DIR, "trimmed", "{patient}-{sample}-report.json")
-FASTP_HTML_REPORT = join(FASTQ_DIR, "trimmed", "{patient}-{sample}-report.html")
-TRIMMED_FASTQ1_FILE = join(FASTQ_DIR, "trimmed", "{patient}-{sample}_1.fastq.gz")
-TRIMMED_FASTQ2_FILE = join(FASTQ_DIR, "trimmed", "{patient}-{sample}_2.fastq.gz")
-TRIMMED_UNPAIRED_FILE = join(FASTQ_DIR, "trimmed", "{patient}-{sample}_3.fastq.gz")
-FAILED_READS_FILE = join(FASTQ_DIR, "trimmed", "{patient}-{sample}_failed.fastq.gz")
+FASTP_JSON_REPORT = join(FASTQ_DIR, "trimmed", "{patient}-{sample}-{cell}-report.json")
+FASTP_HTML_REPORT = join(FASTQ_DIR, "trimmed", "{patient}-{sample}-{cell}-report.html")
+TRIMMED_FASTQ1_FILE = join(FASTQ_DIR, "trimmed", "{patient}-{sample}-{cell}_1.fastq.gz")
+TRIMMED_FASTQ2_FILE = join(FASTQ_DIR, "trimmed", "{patient}-{sample}-{cell}_2.fastq.gz")
+TRIMMED_UNPAIRED_FILE = join(FASTQ_DIR, "trimmed", "{patient}-{sample}-{cell}_3.fastq.gz")
+FAILED_READS_FILE = join(FASTQ_DIR, "trimmed", "{patient}-{sample}-{cell}_failed.fastq.gz")
 
 # fastp
 rule run_fastp:
@@ -36,7 +36,7 @@ rule run_fastp:
     threads:
         6
     benchmark:
-        "benchmarks/{patient}-{sample}.run_fastp.benchmark.txt"
+        "benchmarks/{patient}-{sample}-{cell}.run_fastp.benchmark.txt"
     shell:
         "fastp -w {threads} "
         "--unqualified_percent_limit 40 " # filter reads where 40% of bases have phred quality < 15
