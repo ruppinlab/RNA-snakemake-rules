@@ -1,5 +1,4 @@
 from os.path import join
-import json
 
 
 # Directories
@@ -10,7 +9,7 @@ STAR_GENOME_INDEX = join("output", "star-index")
 # Files
 STAR_ENV_FILE = join(ENV_DIR, "star.yml")
 STAR_BAM_FILE = join(STAR_OUTPUT_DIR, "Aligned.out.bam")
-PE_MANIFEST_FILE = join("output", "{patient}-{plate}")
+PE_MANIFEST_FILE = join("output", "{patient}-{plate}-manifest.tsv")
 
 rule generate_manifest_file:
     input:
@@ -20,11 +19,11 @@ rule generate_manifest_file:
     script:
         "src/generate_manifest_file.py"
 
-def get_SRA_pe_fq_files(wildcards):
-    cells = cells.loc[(cells.patient == wildcards.patient) and (cells.plate == wildcards.plate)]
+def get_pe_fq_files(wildcards):
+    c = cells.loc[(cells.patient == wildcards.patient) & (cells.plate == wildcards.plate)]
     return {
-        "FQ1": expand(TRIMMED_FASTQ1_FILE, patient=cells["patient"], sample=cells["sample"], cell=cells["cell"]),
-        "FQ2": expand(TRIMMED_FASTQ2_FILE, patient=cells["patient"], sample=cells["sample"], cell=cells["cell"]),
+        "FQ1": expand(TRIMMED_FASTQ1_FILE, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
+        "FQ2": expand(TRIMMED_FASTQ2_FILE, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
     }
 
 rule create_star_index:
@@ -51,9 +50,9 @@ rule STARsolo_smartseq2_PE:
     conda:
         STAR_ENV_FILE
     input:
-        index = STAR_GENOME_INDEX,
-        manifest = PE_MANIFEST_FILE,
-        unpack(get_input_pe_fastq_files)
+        STAR_GENOME_INDEX,
+        PE_MANIFEST_FILE,
+        unpack(get_pe_fq_files)
     params:
         odir = join(STAR_OUTPUT_DIR, ""),
     output:
@@ -64,9 +63,9 @@ rule STARsolo_smartseq2_PE:
         "STAR "
         "--runThreadN {threads} "
         "--soloType SmartSeq "
-        "--readFilesManifest {input.manifest} "
+        "--readFilesManifest {input[1]} "
         "--soloUMIdedup Exact --soloStrand Unstranded "
-        "--genomeDir '{input.index}' "
+        "--genomeDir '{input[0]}' "
         "--outSAMunmapped Within "
         "--readFilesCommand zcat "
         "--outSAMtype BAM Unsorted "
