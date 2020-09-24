@@ -52,7 +52,6 @@ rule STARsolo_smartseq2_PE:
     input:
         STAR_GENOME_INDEX,
         PE_MANIFEST_FILE,
-        config["ref"]["annotation"],
         unpack(get_pe_fq_files)
     params:
         odir = join(STAR_OUTPUT_DIR, ""),
@@ -70,4 +69,4 @@ rule STARsolo_smartseq2_PE:
         "--outSAMunmapped Within "
         "--readFilesCommand zcat "
         "--outSAMtype BAM Unsorted "
-        "--sjdbGTFfile '{input[2]}'"
+        "--outFileNamePrefix '{params.odir}' "
