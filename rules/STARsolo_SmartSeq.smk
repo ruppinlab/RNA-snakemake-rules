@@ -22,8 +22,8 @@ rule generate_manifest_file:
 def get_pe_fq_files(wildcards):
     c = cells.loc[(cells.patient == wildcards.patient) & (cells.plate == wildcards.plate)]
     return {
-        "FQ1": expand(TRIMMED_FASTQ1_FILE, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
-        "FQ2": expand(TRIMMED_FASTQ2_FILE, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
+        "FQ1": expand(TRIMMED_FASTQ1_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
+        "FQ2": expand(TRIMMED_FASTQ2_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
     }
 
 rule create_star_index:
@@ -52,6 +52,7 @@ rule STARsolo_smartseq2_PE:
     input:
         STAR_GENOME_INDEX,
         PE_MANIFEST_FILE,
+        config["ref"]["annotation"],
         unpack(get_pe_fq_files)
     params:
         odir = join(STAR_OUTPUT_DIR, ""),
@@ -69,3 +70,4 @@ rule STARsolo_smartseq2_PE:
         "--outSAMunmapped Within "
         "--readFilesCommand zcat "
         "--outSAMtype BAM Unsorted "
+        "--sjdbGTFfile '{input[2]}'"
