@@ -77,6 +77,8 @@ rule STAR_manifest_PE:
         STAR_PE_BAM_FILE
     threads:
         48
+    benchmark:
+        "benchmarks/{patient}-{sample}-{plate}.STAR_manifest_PE.benchmark.txt"
     shell:
         "STAR "
         "--runThreadN {threads} "
@@ -109,6 +111,8 @@ rule STAR_manifest_SE:
         STAR_SE_BAM_FILE
     threads:
         48
+    benchmark:
+        "benchmarks/{patient}-{sample}-{plate}.STAR_manifest_SE.benchmark.txt"
     shell:
         "STAR "
         "--runThreadN {threads} "
