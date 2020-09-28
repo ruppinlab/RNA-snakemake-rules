@@ -2,4 +2,4 @@ name: star
 channels:
   - bioconda
 dependencies:
-  - star>=2.7.3a
+  - star>=2.7.6a
