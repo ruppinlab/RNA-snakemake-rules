@@ -76,7 +76,7 @@ rule STAR_manifest_PE:
     output:
         STAR_PE_BAM_FILE
     threads:
-        16
+        48
     shell:
         "STAR "
         "--runThreadN {threads} "
@@ -108,7 +108,7 @@ rule STAR_manifest_SE:
     output:
         STAR_SE_BAM_FILE
     threads:
-        16
+        48
     shell:
         "STAR "
         "--runThreadN {threads} "
