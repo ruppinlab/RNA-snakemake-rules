@@ -4,8 +4,8 @@ from os.path import join
 # Directories
 ENV_DIR = join("..", "envs")
 STAR_OUTPUT_DIR = join("output", "star", "{patient}-{sample}-{plate}")
-STAR_PE_OUTPUT_DIR = join("output", "star", "_STARpe", "{patient}-{sample}-{plate}")
-STAR_SE_OUTPUT_DIR = join("output", "star", "_STARse", "{patient}-{sample}-{plate}")
+STAR_PE_OUTPUT_DIR = join(STAR_OUTPUT_DIR, "_STARpe")
+STAR_SE_OUTPUT_DIR = join(STAR_OUTPUT_DIR, "_STARse")
 STAR_GENOME_INDEX = join("output", "star-index")
 
 # Files
@@ -14,8 +14,8 @@ PE_MANIFEST_FILE = join("output", "manifest", "{patient}-{sample}-{plate}-pe-man
 SE_MANIFEST_FILE = join("output", "manifest", "{patient}-{sample}-{plate}-se-manifest.tsv")
 
 # output files
-STAR_PE_BAM_FILE = join(STAR_OUTPUT_DIR, "_STARpe", "Aligned.out.bam")
-STAR_SE_BAM_FILE = join(STAR_OUTPUT_DIR, "_STARse", "Aligned.out.bam")
+STAR_PE_BAM_FILE = join(STAR_PE_OUTPUT_DIR, "Aligned.out.bam")
+STAR_SE_BAM_FILE = join(STAR_SE_OUTPUT_DIR, "Aligned.out.bam")
 
 localrules: generate_se_manifest_file, generate_pe_manifest_file
 
