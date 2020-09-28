@@ -4,7 +4,8 @@ from os.path import join
 # Directories
 ENV_DIR = join("..", "envs")
 STAR_OUTPUT_DIR = join("output", "star", "{patient}-{sample}-{plate}")
-IND_STAR_OUTPUT_DIR = join("output", "star", "{patient}", "{sample}-{cell}")
+STAR_PE_OUTPUT_DIR = join("output", "star", "_STARpe", "{patient}-{sample}-{plate}")
+STAR_SE_OUTPUT_DIR = join("output", "star", "_STARse", "{patient}-{sample}-{plate}")
 STAR_GENOME_INDEX = join("output", "star-index")
 
 # Files
@@ -71,7 +72,7 @@ rule STAR_manifest_PE:
         PE_MANIFEST_FILE,
         unpack(get_pe_fq_files)
     params:
-        odir = join(STAR_OUTPUT_DIR, ""),
+        odir = join(STAR_PE_OUTPUT_DIR, ""),
     output:
         STAR_PE_BAM_FILE
     threads:
@@ -103,7 +104,7 @@ rule STAR_manifest_SE:
         SE_MANIFEST_FILE,
         unpack(get_se_fq_files)
     params:
-        odir = join(STAR_OUTPUT_DIR, ""),
+        odir = join(STAR_SE_OUTPUT_DIR, ""),
     output:
         STAR_SE_BAM_FILE
     threads:
