@@ -90,7 +90,7 @@ rule STAR_manifest_PE:
 def get_se_fq_files(wildcards):
     c = cells.loc[(cells.patient == wildcards.patient) & (cells["sample"] == wildcards.sample) & (cells.plate == wildcards.plate)]
     return {
-        "FQ1": expand(TRIMMED_FASTQ3_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
+        "FQ1": expand(TRIMMED_UNPAIRED_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
     }
 
 rule STAR_manifest_SE:
