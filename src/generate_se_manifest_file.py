@@ -9,4 +9,4 @@ df["RG_ID"] = df["cell"].apply(lambda x: "ID:{}".format(x))
 df["RG_PL"] = "PL:illumina"
 df["RG_SM"] = df["cell"].apply(lambda x: "SM:{}".format(x))
 df["RG_LB"] = "LB:RNA"
-df[["fq1", "fq2", "RGID", "RG_PL", "RG_SM", "RG_LB"]].to_csv(snakemake.output[0], sep="\t", index=False, header=False, quoting=csv.QUOTE_NONE)
+df[["fq1", "fq2", "RG_ID", "RG_PL", "RG_SM", "RG_LB"]].to_csv(snakemake.output[0], sep="\t", index=False, header=False, quoting=csv.QUOTE_NONE)

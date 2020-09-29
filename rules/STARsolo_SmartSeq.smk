@@ -73,6 +73,7 @@ rule STAR_manifest_PE:
         unpack(get_pe_fq_files)
     params:
         odir = join(STAR_PE_OUTPUT_DIR, ""),
+        SAMattrRGline = get_SAMattrRGline
     output:
         STAR_PE_BAM_FILE
     threads:
@@ -87,6 +88,7 @@ rule STAR_manifest_PE:
         "--outSAMunmapped Within "
         "--readFilesCommand zcat "
         "--outSAMtype BAM Unsorted "
+        "--outSAMattrRGline {params.SAMattrRGline} "
         "--outFileNamePrefix '{params.odir}' "
 
 
@@ -95,6 +97,11 @@ def get_se_fq_files(wildcards):
     return {
         "FQ1": expand(TRIMMED_UNPAIRED_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
     }
+
+def get_SAMattrRGline(wildcards):
+    c = cells.loc[(cells.patient == wildcards.patient) & (cells["sample"] == wildcards.sample) & (cells.plate == wildcards.plate)]
+    return " , ".join(["ID:{}".format(x) for x in c["cell"]])
+
 
 rule STAR_manifest_SE:
     group:
@@ -107,6 +114,7 @@ rule STAR_manifest_SE:
         unpack(get_se_fq_files)
     params:
         odir = join(STAR_SE_OUTPUT_DIR, ""),
+        SAMattrRGline = get_SAMattrRGline
     output:
         STAR_SE_BAM_FILE
     threads:
@@ -121,4 +129,5 @@ rule STAR_manifest_SE:
         "--outSAMunmapped Within "
         "--readFilesCommand zcat "
         "--outSAMtype BAM Unsorted "
+        "--outSAMattrRGline {params.SAMattrRGline} "
         "--outFileNamePrefix '{params.odir}' "
