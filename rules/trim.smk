@@ -27,10 +27,10 @@ rule run_fastp:
         FASTQ1_FILE,
         FASTQ2_FILE
     output:
-        TRIMMED_FASTQ1_FILE,
-        TRIMMED_FASTQ2_FILE,
-        TRIMMED_UNPAIRED_FILE,
-        FAILED_READS_FILE,
+        temp(TRIMMED_FASTQ1_FILE),
+        temp(TRIMMED_FASTQ2_FILE),
+        temp(TRIMMED_UNPAIRED_FILE),
+        temp(FAILED_READS_FILE),
         FASTP_JSON_REPORT,
         FASTP_HTML_REPORT
     threads:
