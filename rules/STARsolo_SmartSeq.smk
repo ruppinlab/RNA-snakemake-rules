@@ -16,6 +16,7 @@ SE_MANIFEST_FILE = join("output", "manifest", "{patient}-{sample}-{plate}-se-man
 # output files
 STAR_PE_BAM_FILE = join(STAR_PE_OUTPUT_DIR, "Aligned.out.bam")
 STAR_SE_BAM_FILE = join(STAR_SE_OUTPUT_DIR, "Aligned.out.bam")
+STAR_PE_READCOUNT_FILE = join(STAR_PE_OUTPUT_DIR, "ReadsPerGene.out.tab")
 
 localrules: generate_se_manifest_file, generate_pe_manifest_file
 
@@ -75,13 +76,15 @@ rule STAR_manifest_PE:
         odir = join(STAR_PE_OUTPUT_DIR, ""),
         SAMattrRGline = get_SAMattrRGline
     output:
-        STAR_PE_BAM_FILE
+        STAR_PE_BAM_FILE,
+        STAR_PE_READCOUNT_FILE
     threads:
         48
     benchmark:
         "benchmarks/{patient}-{sample}-{plate}.STAR_manifest_PE.benchmark.txt"
     shell:
         "STAR "
+        "--soloType SmartSeq --soloUMIdedup Exact --soloStrand Unstranded"
         "--runThreadN {threads} "
         "--readFilesManifest {input[1]} "
         "--genomeDir '{input[0]}' "
@@ -90,6 +93,7 @@ rule STAR_manifest_PE:
         "--outSAMtype BAM Unsorted "
         "--outSAMattrRGline {params.SAMattrRGline} "
         "--outFileNamePrefix '{params.odir}' "
+        "--quantMode GeneCounts "
 
 
 def get_se_fq_files(wildcards):
