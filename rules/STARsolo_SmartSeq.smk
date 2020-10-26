@@ -20,6 +20,24 @@ STAR_PE_READCOUNT_FILE = join(STAR_PE_OUTPUT_DIR, "ReadsPerGene.out.tab")
 
 localrules: generate_se_manifest_file, generate_pe_manifest_file
 
+# function
+def get_SAMattrRGline(wildcards):
+    c = cells.loc[(cells.patient == wildcards.patient) & (cells["sample"] == wildcards.sample) & (cells.plate == wildcards.plate)]
+    return " , ".join(["ID:{}".format(x) for x in c["cell"]])
+
+def get_pe_fq_files(wildcards):
+    c = cells.loc[(cells.patient == wildcards.patient) & (cells["sample"] == wildcards.sample) & (cells.plate == wildcards.plate)]
+    return {
+        "FQ1": expand(TRIMMED_FASTQ1_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
+        "FQ2": expand(TRIMMED_FASTQ2_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
+    }
+
+def get_se_fq_files(wildcards):
+    c = cells.loc[(cells.patient == wildcards.patient) & (cells["sample"] == wildcards.sample) & (cells.plate == wildcards.plate)]
+    return {
+        "FQ1": expand(TRIMMED_UNPAIRED_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
+    }
+
 rule generate_se_manifest_file:
     input:
         config["units"]
@@ -56,13 +74,6 @@ rule create_star_index:
         "--sjdbGTFfile '{input[gtf]}'"
 
 
-def get_pe_fq_files(wildcards):
-    c = cells.loc[(cells.patient == wildcards.patient) & (cells["sample"] == wildcards.sample) & (cells.plate == wildcards.plate)]
-    return {
-        "FQ1": expand(TRIMMED_FASTQ1_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
-        "FQ2": expand(TRIMMED_FASTQ2_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
-    }
-
 rule STAR_manifest_PE:
     group:
         "STAR_2pass"
@@ -94,17 +105,6 @@ rule STAR_manifest_PE:
         "--outSAMattrRGline {params.SAMattrRGline} "
         "--outFileNamePrefix '{params.odir}' "
         "--quantMode GeneCounts "
-
-
-def get_se_fq_files(wildcards):
-    c = cells.loc[(cells.patient == wildcards.patient) & (cells["sample"] == wildcards.sample) & (cells.plate == wildcards.plate)]
-    return {
-        "FQ1": expand(TRIMMED_UNPAIRED_FILE, zip, patient=c["patient"], sample=c["sample"], cell=c["cell"]),
-    }
-
-def get_SAMattrRGline(wildcards):
-    c = cells.loc[(cells.patient == wildcards.patient) & (cells["sample"] == wildcards.sample) & (cells.plate == wildcards.plate)]
-    return " , ".join(["ID:{}".format(x) for x in c["cell"]])
 
 
 rule STAR_manifest_SE:
