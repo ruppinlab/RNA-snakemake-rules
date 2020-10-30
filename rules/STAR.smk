@@ -23,8 +23,8 @@ def get_fq(wildcards):
     else:
         dir = join("FASTQ", "trimmed")
     return {
-        'fq1': join(dir, "{wildcards.patient}-{wildcards.sample}_1.fastq.gz".format(wildcards=wildcards)),
-        'fq2': join(dir, "{wildcards.patient}-{wildcards.sample}_2.fastq.gz".format(wildcards=wildcards))
+        'fq1': join(dir, "{wildcards.patient}-{wildcards.sample}-{wildcards.cell}_1.fastq.gz".format(wildcards=wildcards)),
+        'fq2': join(dir, "{wildcards.patient}-{wildcards.sample}-{wildcards.cell}_2.fastq.gz".format(wildcards=wildcards))
         }
 
 
