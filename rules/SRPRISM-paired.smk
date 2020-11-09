@@ -14,7 +14,7 @@ GENOME_DB_PREFIX = join(SRPRISM_DB_DIR, "{genome}")
 GENOME_DB_FILE = join(SRPRISM_DB_DIR, "{genome}.idx")
 
 # sam files
-SRPRISM_PAIRED_SAM = join("output", "SRPRISM", "{patient}", "{genome}-paired.sam")
+SRPRISM_PAIRED_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.sam")
 SRPRISM_PAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.primary.sam")
 SRPRISM_PROPER_PAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-proper-paired.primary.sam")
 SRPRISM_PROPER_PAIRED_PRIMARY_BAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-proper-paired.primary.bam")
