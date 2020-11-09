@@ -15,13 +15,13 @@ GENOME_DB_FILE = join(SRPRISM_DB_DIR, "{genome}.idx")
 
 # sam files
 SRPRISM_PAIRED_SAM = join("output", "SRPRISM", "{patient}", "{genome}-paired.sam")
-SRPRISM_PAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{cell}", "{genome}-paired.primary.sam")
-SRPRISM_PROPER_PAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{cell}", "{genome}-proper-paired.primary.sam")
-SRPRISM_PROPER_PAIRED_PRIMARY_BAM = join("output", "SRPRISM", "{patient}", "{sample}-{cell}", "{genome}-proper-paired.primary.bam")
-SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM = join("output", "SRPRISM", "{patient}", "{sample}-{cell}", "{genome}-paired.primary.sorted.bam")
-SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAI = join("output", "SRPRISM", "{patient}", "{sample}-{cell}", "{genome}-paired.primary.sorted.bam.bai")
+SRPRISM_PAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.primary.sam")
+SRPRISM_PROPER_PAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-proper-paired.primary.sam")
+SRPRISM_PROPER_PAIRED_PRIMARY_BAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-proper-paired.primary.bam")
+SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.primary.sorted.bam")
+SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAI = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.primary.sorted.bam.bai")
 
-SRPRISM_COUNT = join("output", "{genome}-read_count.tsv")
+# SRPRISM_COUNT = join("output", "{genome}-read_count.tsv")
 
 localrules: extract_primary_alignment, convert_to_bam, sort_bam, index_bam, exclude_non_proper_pairs
 
