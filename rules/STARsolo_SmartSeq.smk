@@ -87,8 +87,7 @@ rule STAR_manifest_PE:
         odir = join(STAR_PE_OUTPUT_DIR, ""),
         SAMattrRGline = get_SAMattrRGline
     output:
-        STAR_PE_BAM_FILE,
-        STAR_PE_READCOUNT_FILE
+        STAR_PE_BAM_FILE
     threads:
         48
     benchmark:
