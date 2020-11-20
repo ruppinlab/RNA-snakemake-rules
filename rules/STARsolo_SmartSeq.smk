@@ -94,7 +94,7 @@ rule STAR_manifest_PE:
     benchmark:
         "benchmarks/{patient}-{sample}-{plate}.STAR_manifest_PE.benchmark.txt"
     shell:
-        "STAR "
+        "/data/Robinson-SB/STAR/bin/Linux_x86_64_static/STAR "
         "--soloType SmartSeq --soloUMIdedup Exact --soloStrand Unstranded"
         "--runThreadN {threads} "
         "--readFilesManifest {input[1]} "
@@ -126,7 +126,7 @@ rule STAR_manifest_SE:
     benchmark:
         "benchmarks/{patient}-{sample}-{plate}.STAR_manifest_SE.benchmark.txt"
     shell:
-        "STAR "
+        "/data/Robinson-SB/STAR/bin/Linux_x86_64_static/STAR "
         "--runThreadN {threads} "
         "--readFilesManifest {input[1]} "
         "--genomeDir '{input[0]}' "
