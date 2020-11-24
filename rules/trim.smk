@@ -43,7 +43,7 @@ rule run_fastp:
         "--cut_tail " # use defaults --cut_window_size 4 --cut_mean_quality 20
         "--low_complexity_filter " # filter reads with less than 30% complexity (30% of the bases are different from the preceeding base)
         "--trim_poly_x " # trim poly X's - useful for trimming polyA tails
-        "--length_required 25 "
         "-i {input[0]} -I {input[1]} -o {output[0]} -O {output[1]} "
         "--unpaired1 {output[2]} --unpaired2 {output[2]} --failed_out {output[3]} "
-        "-j {output[4]} -h {output[5]}"
+        "-j {output[4]} -h {output[5]} "
+        + config["params"]["fastp"]
