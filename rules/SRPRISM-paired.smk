@@ -1,12 +1,6 @@
 from os.path import join
 import pandas as pd
 
-wildcard_constraints:
-    genome="LT2|D23580"
-
-LT2_genome_URL = "ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/006/945/GCF_000006945.2_ASM694v2/GCF_000006945.2_ASM694v2_genomic.fna.gz"
-D23580_genome_URL = "ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/900/538/085/GCF_900538085.1_D23580_liv/GCF_900538085.1_D23580_liv_genomic.fna.gz"
-
 # files
 GENOME_FA = join("raw", "{genome}.fa")
 SRPRISM_DB_DIR = join("output", "genomes_db")
@@ -111,23 +105,3 @@ rule make_reference_DB:
         GENOME_DB_FILE
     shell:
         "srprism mkindex -i {input} -o {params}"
-
-rule download_D23580_genome:
-    wildcard_constraints:
-        genome="D23580"
-    params:
-        D23580_genome_URL
-    output:
-        GENOME_FA
-    shell:
-        "wget -O - {params[0]} | gunzip -c > {output}"
-
-rule download_LT2_genome:
-    wildcard_constraints:
-        genome="LT2"
-    params:
-        LT2_genome_URL
-    output:
-        GENOME_FA
-    shell:
-        "wget -O - {params[0]} | gunzip -c > {output}"
