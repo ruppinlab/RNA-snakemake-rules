@@ -35,25 +35,26 @@ localrules: extract_primary_alignment, convert_to_bam, sort_bam, index_bam, excl
 #         SRPRISM_COUNT
 #     script:
 #         "src/count_nreads.py"
-#
-# rule index_bam:
-#     input:
-#         SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM
-#     output:
-#         SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAI
-#     shell:
-#         "module load samtools && "
-#         "samtools index {input}"
-#
-# # sort bam by genomic coordinates so we can easily filter by region(s)
-# rule sort_bam:
-#     input:
-#         SRPRISM_PROPER_PAIRED_PRIMARY_BAM
-#     output:
-#         SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM
-#     shell:
-#         "module load samtools && "
-#         "samtools sort -o {output} {input}"
+
+# index bam by genomic coordinates so we can easily filter by region(s)
+rule index_bam:
+    input:
+        SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM
+    output:
+        SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAI
+    shell:
+        "module load samtools && "
+        "samtools index {input}"
+
+# sort bam by genomic coordinates so we can index 
+rule sort_bam:
+    input:
+        SRPRISM_PROPER_PAIRED_PRIMARY_BAM
+    output:
+        SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM
+    shell:
+        "module load samtools && "
+        "samtools sort -o {output} {input}"
 
 rule convert_to_bam:
     group:
