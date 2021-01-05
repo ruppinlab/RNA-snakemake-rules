@@ -1,11 +1,7 @@
 from os.path import join
 import pandas as pd
 
-# files
-GENOME_FA = join("raw", "{genome}.fa")
-SRPRISM_DB_DIR = join("output", "genomes_db")
-GENOME_DB_PREFIX = join(SRPRISM_DB_DIR, "{genome}")
-GENOME_DB_FILE = join(SRPRISM_DB_DIR, "{genome}.idx")
+include: "../SRPRISM.smk"
 
 # sam files
 SRPRISM_PAIRED_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.sam")
@@ -15,26 +11,9 @@ SRPRISM_PROPER_PAIRED_PRIMARY_BAM = join("output", "SRPRISM", "{patient}", "{sam
 SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.primary.sorted.bam")
 SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAI = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.primary.sorted.bam.bai")
 
-# SRPRISM_COUNT = join("output", "{genome}-read_count.tsv")
 
 localrules: extract_primary_alignment, convert_to_bam, sort_bam, index_bam, exclude_non_proper_pairs
 
-
-# rule all:
-#     input:
-#         expand(SRPRISM_COUNT, genome="nucleatum")
-#
-# rule count_nreads:
-#     conda:
-#         "../envs/pysam-env.yaml"
-#     params:
-#         cells=df["cell"]
-#     input:
-#         expand(SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM, genome="{genome}", cell=df["cell"])
-#     output:
-#         SRPRISM_COUNT
-#     script:
-#         "src/count_nreads.py"
 
 # index bam by genomic coordinates so we can easily filter by region(s)
 rule index_bam:
@@ -46,7 +25,7 @@ rule index_bam:
         "module load samtools && "
         "samtools index {input}"
 
-# sort bam by genomic coordinates so we can index 
+# sort bam by genomic coordinates so we can index
 rule sort_bam:
     input:
         SRPRISM_PROPER_PAIRED_PRIMARY_BAM
@@ -104,13 +83,3 @@ rule map_SRPRISM_genome_paired:
         SRPRISM_PAIRED_SAM
     shell:
         "srprism search -I {params} -i {input[0]},{input[1]} -F fastq -p true -o {output} --sam-header true"
-
-rule make_reference_DB:
-    params:
-        GENOME_DB_PREFIX
-    input:
-        GENOME_FA
-    output:
-        GENOME_DB_FILE
-    shell:
-        "srprism mkindex -i {input} -o {params}"
