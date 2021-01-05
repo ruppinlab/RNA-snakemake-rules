@@ -56,6 +56,8 @@ localrules: extract_primary_alignment, convert_to_bam, sort_bam, index_bam, excl
 #         "samtools sort -o {output} {input}"
 
 rule convert_to_bam:
+    group:
+        "SRPRISM"
     input:
         SRPRISM_PROPER_PAIRED_PRIMARY_SAM
     output:
@@ -66,6 +68,8 @@ rule convert_to_bam:
 
 # -f means include and 2 means "read mapped in proper pair"
 rule exclude_non_proper_pairs:
+    group:
+        "SRPRISM"
     input:
         SRPRISM_PAIRED_PRIMARY_SAM
     output:
@@ -76,6 +80,8 @@ rule exclude_non_proper_pairs:
 
 # -F means exclude and 256 means "not primary alignment"
 rule extract_primary_alignment:
+    group:
+        "SRPRISM"
     input:
         SRPRISM_PAIRED_SAM
     output:
@@ -85,6 +91,8 @@ rule extract_primary_alignment:
         "samtools view -h -F 256 -o {output} {input}"
 
 rule map_SRPRISM_genome_paired:
+    group:
+        "SRPRISM"
     params:
         GENOME_DB_PREFIX
     input:
