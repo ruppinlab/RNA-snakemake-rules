@@ -1,7 +1,7 @@
 from os.path import join
 import pandas as pd
 
-include: "../SRPRISM.smk"
+include: "SRPRISM.smk"
 
 # sam files
 SRPRISM_PAIRED_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.sam")

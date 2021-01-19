@@ -1,11 +1,11 @@
 from os.path import join
 import pandas as pd
 
-# in order to import, need to include the following files
-    # SRPRISM_UNPAIRED_INPUT_FQ1
-    # GENOME_FA - fasta file of the genome to be indexed by SRPRISM
 
-include: "../SRPRISM.smk"
+include: "SRPRISM.smk"
+
+# input files
+SRPRISM_UNPAIRED_INPUT_FQ = join("output", "SRPRISM", "{patient}", "{identifier}", "unaligned_3.fq")
 
 # sam files
 SRPRISM_UNPAIRED_SAM = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-unpaired.sam")
@@ -71,7 +71,7 @@ rule map_SRPRISM_genome_unpaired:
     params:
         GENOME_DB_PREFIX
     input:
-        SRPRISM_UNPAIRED_INPUT_FQ1,
+        SRPRISM_UNPAIRED_INPUT_FQ,
         GENOME_DB_FILE
     output:
         SRPRISM_UNPAIRED_SAM
