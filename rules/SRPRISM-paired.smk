@@ -41,7 +41,7 @@ rule convert_to_bam:
     input:
         SRPRISM_PROPER_PAIRED_PRIMARY_SAM
     output:
-        SRPRISM_PROPER_PAIRED_PRIMARY_BAM
+        temp(SRPRISM_PROPER_PAIRED_PRIMARY_BAM)
     shell:
         "module load samtools && "
         "samtools view -h -b -o {output} {input}"
@@ -53,7 +53,7 @@ rule exclude_non_proper_pairs:
     input:
         SRPRISM_PAIRED_PRIMARY_SAM
     output:
-        SRPRISM_PROPER_PAIRED_PRIMARY_SAM
+        temp(SRPRISM_PROPER_PAIRED_PRIMARY_SAM)
     shell:
         "module load samtools && "
         "samtools view -h -f 2 -o {output} {input}"
@@ -65,7 +65,7 @@ rule extract_primary_alignment:
     input:
         SRPRISM_PAIRED_SAM
     output:
-        SRPRISM_PAIRED_PRIMARY_SAM
+        temp(SRPRISM_PAIRED_PRIMARY_SAM)
     shell:
         "module load samtools && "
         "samtools view -h -F 256 -o {output} {input}"
@@ -80,6 +80,6 @@ rule map_SRPRISM_genome_paired:
         SRPRISM_INPUT_FQ2,
         GENOME_DB_FILE
     output:
-        SRPRISM_PAIRED_SAM
+        temp(SRPRISM_PAIRED_SAM)
     shell:
         "srprism search -I {params} -i {input[0]},{input[1]} -F fastq -p true -o {output} --sam-header true"

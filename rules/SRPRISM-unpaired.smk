@@ -47,7 +47,7 @@ rule convert_unpaired_sam_to_bam:
     input:
         SRPRISM_UNPAIRED_PRIMARY_SAM
     output:
-        SRPRISM_UNPAIRED_PRIMARY_BAM
+        temp(SRPRISM_UNPAIRED_PRIMARY_BAM)
     shell:
         "module load samtools && "
         "samtools view -h -b -o {output} {input}"
@@ -60,7 +60,7 @@ rule extract_primary_alignment_from_unpaired_bam:
     input:
         SRPRISM_UNPAIRED_SAM
     output:
-        SRPRISM_UNPAIRED_PRIMARY_SAM
+        temp(SRPRISM_UNPAIRED_PRIMARY_SAM)
     shell:
         "module load samtools && "
         "samtools view -h -F 256 -o {output} {input}"
@@ -74,6 +74,6 @@ rule map_SRPRISM_genome_unpaired:
         SRPRISM_UNPAIRED_INPUT_FQ,
         GENOME_DB_FILE
     output:
-        SRPRISM_UNPAIRED_SAM
+        temp(SRPRISM_UNPAIRED_SAM)
     shell:
         "srprism search -I {params} -i {input[0]} -F fastq -p false -o {output} --sam-header true"
