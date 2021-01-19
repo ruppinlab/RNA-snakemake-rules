@@ -1,14 +1,18 @@
 from os.path import join
 import pandas as pd
 
+# in order to import, need to include the following files
+    # SRPRISM_UNPAIRED_INPUT_FQ1
+    # GENOME_FA - fasta file of the genome to be indexed by SRPRISM
+
 include: "../SRPRISM.smk"
 
 # sam files
-SRPRISM_UNPAIRED_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-unpaired.sam")
-SRPRISM_UNPAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-unpaired.primary.sam")
-SRPRISM_UNPAIRED_PRIMARY_BAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-unpaired.primary.bam")
-SRPRISM_UNPAIRED_PRIMARY_SORTED_BAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-unpaired.primary.sorted.bam")
-SRPRISM_UNPAIRED_PRIMARY_SORTED_BAI = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-unpaired.primary.sorted.bam.bai")
+SRPRISM_UNPAIRED_SAM = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-unpaired.sam")
+SRPRISM_UNPAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-unpaired.primary.sam")
+SRPRISM_UNPAIRED_PRIMARY_BAM = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-unpaired.primary.bam")
+SRPRISM_UNPAIRED_PRIMARY_SORTED_BAM = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-unpaired.primary.sorted.bam")
+SRPRISM_UNPAIRED_PRIMARY_SORTED_BAI = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-unpaired.primary.sorted.bam.bai")
 
 
 localrules: extract_primary_alignment_from_unpaired_bam, convert_unpaired_sam_to_bam, sort_unpaired_bam, index_unpaired_bam
@@ -67,7 +71,7 @@ rule map_SRPRISM_genome_unpaired:
     params:
         GENOME_DB_PREFIX
     input:
-        SRPRISM_INPUT_FQ3,
+        SRPRISM_UNPAIRED_INPUT_FQ1,
         GENOME_DB_FILE
     output:
         SRPRISM_UNPAIRED_SAM
