@@ -3,13 +3,18 @@ import pandas as pd
 
 include: "SRPRISM.smk"
 
+# input files
+SRPRISM_INPUT_FQ1 = join("output", "SRPRISM", "{patient}", "{identifier}", "unaligned_1.fq")
+SRPRISM_INPUT_FQ2 = join("output", "SRPRISM", "{patient}", "{identifier}", "unaligned_2.fq")
+
+
 # sam files
-SRPRISM_PAIRED_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.sam")
-SRPRISM_PAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.primary.sam")
-SRPRISM_PROPER_PAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-proper-paired.primary.sam")
-SRPRISM_PROPER_PAIRED_PRIMARY_BAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-proper-paired.primary.bam")
-SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.primary.sorted.bam")
-SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAI = join("output", "SRPRISM", "{patient}", "{sample}-{plate}-{cell}", "{genome}-paired.primary.sorted.bam.bai")
+SRPRISM_PAIRED_SAM = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-paired.sam")
+SRPRISM_PAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-paired.primary.sam")
+SRPRISM_PROPER_PAIRED_PRIMARY_SAM = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-proper-paired.primary.sam")
+SRPRISM_PROPER_PAIRED_PRIMARY_BAM = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-proper-paired.primary.bam")
+SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-paired.primary.sorted.bam")
+SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAI = join("output", "SRPRISM", "{patient}", "{identifier}", "{genome}-paired.primary.sorted.bam.bai")
 
 
 localrules: extract_primary_alignment, convert_to_bam, sort_bam, index_bam, exclude_non_proper_pairs
