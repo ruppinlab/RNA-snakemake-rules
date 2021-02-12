@@ -28,7 +28,7 @@ rule cellranger_count:
     output:
         CR_BAM_FILE
     shell:
-        "module load cellranger/4.0.0 && "
+        "module load cellranger/5.0.1 && "
         # snakemake auto creates directories for output files but cellranger expects existing directories to pipestance directory
         "rm -rf {params[1]} && "
         "cellranger count --id={params[1]} "
