@@ -20,7 +20,7 @@ FAILED_READS_FILE = join(FASTQ_DIR, "trimmed", "{patient}-{sample}-{cell}_failed
 # fastp
 rule run_fastp:
     group:
-        "FASTQ"
+        "run_fastp"
     conda:
         join(ENV_DIR, "fastp.yml")
     input:
