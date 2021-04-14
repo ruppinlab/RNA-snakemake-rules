@@ -75,8 +75,6 @@ rule create_star_index:
 
 
 rule STAR_manifest_PE:
-    group:
-        "STAR_2pass"
     conda:
         STAR_ENV_FILE
     input:
@@ -107,8 +105,6 @@ rule STAR_manifest_PE:
 
 
 rule STAR_manifest_SE:
-    group:
-        "STAR_2pass"
     conda:
         STAR_ENV_FILE
     input:
@@ -121,7 +117,7 @@ rule STAR_manifest_SE:
     output:
         STAR_SE_BAM_FILE
     threads:
-        48
+        16
     benchmark:
         "benchmarks/{patient}-{sample}-{plate}.STAR_manifest_SE.benchmark.txt"
     shell:
