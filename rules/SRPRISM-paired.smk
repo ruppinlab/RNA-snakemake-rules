@@ -22,6 +22,8 @@ localrules: extract_primary_alignment, convert_to_bam, sort_bam, index_bam, excl
 
 # index bam by genomic coordinates so we can easily filter by region(s)
 rule index_bam:
+    group:
+        "index_bam"
     input:
         SRPRISM_PROPER_PAIRED_PRIMARY_SORTED_BAM
     output:
@@ -32,6 +34,8 @@ rule index_bam:
 
 # sort bam by genomic coordinates so we can index
 rule sort_bam:
+    group:
+        "sort_bam"
     input:
         SRPRISM_PROPER_PAIRED_PRIMARY_BAM
     output:
@@ -42,7 +46,7 @@ rule sort_bam:
 
 rule convert_to_bam:
     group:
-        "SRPRISM"
+        "convert_to_bam"
     input:
         SRPRISM_PROPER_PAIRED_PRIMARY_SAM
     output:
@@ -54,7 +58,7 @@ rule convert_to_bam:
 # -f means include and 2 means "read mapped in proper pair"
 rule exclude_non_proper_pairs:
     group:
-        "SRPRISM"
+        "exclude_non_proper_pairs"
     input:
         SRPRISM_PAIRED_PRIMARY_SAM
     output:
@@ -66,7 +70,7 @@ rule exclude_non_proper_pairs:
 # -F means exclude and 256 means "not primary alignment"
 rule extract_primary_alignment:
     group:
-        "SRPRISM"
+        "extract_primary_alignment"
     input:
         SRPRISM_PAIRED_SAM
     output:
@@ -77,7 +81,7 @@ rule extract_primary_alignment:
 
 rule map_SRPRISM_genome_paired:
     group:
-        "SRPRISM"
+        "map_SRPRISM_genome_paired"
     params:
         GENOME_DB_PREFIX
     input:
