@@ -15,9 +15,9 @@ SE_MANIFEST_FILE = join("output", "manifest", "{patient}-{sample}-{plate}-se-man
 
 # output files
 STAR_PE_BAM_FILE = join(STAR_PE_OUTPUT_DIR, "Aligned.out.bam")
-STAR_PE_RAW_BARCODE_FILE = join(STAR_PE_OUTPUT_DIR, "Solo.out", "Gene", "raw", "barcodes.tsv.gz")
-STAR_PE_RAW_MATRIX_FILE = join(STAR_PE_OUTPUT_DIR, "Solo.out", "Gene", "raw", "matrix.mtx.gz")
-STAR_PE_RAW_FEATURES_FILE = join(STAR_PE_OUTPUT_DIR, "Solo.out", "Gene", "raw", "features.tsv.gz")
+STAR_PE_RAW_BARCODE_FILE = join(STAR_PE_OUTPUT_DIR, "Solo.out", "Gene", "raw", "barcodes.tsv")
+STAR_PE_RAW_MATRIX_FILE = join(STAR_PE_OUTPUT_DIR, "Solo.out", "Gene", "raw", "matrix.mtx")
+STAR_PE_RAW_FEATURES_FILE = join(STAR_PE_OUTPUT_DIR, "Solo.out", "Gene", "raw", "features.tsv")
 STAR_SE_BAM_FILE = join(STAR_SE_OUTPUT_DIR, "Aligned.out.bam")
 
 
