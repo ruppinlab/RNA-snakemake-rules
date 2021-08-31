@@ -20,9 +20,9 @@ STAR_PASS1_SJ_FILTERED_FILE = join(STAR_PASS1_OUTPUT_DIR, "SJ.filtered.out.tab")
 READLENGTH_HISTOGRAM = join(STAR_OUTPUT_DIR, "read-length-histogram.tsv")
 SAMPLE_METADATA = join(STAR_OUTPUT_DIR, "sample-metadata.json")
 # Output Files
-STAR_PASS2_BAM_FILE = join(STAR_PASS2_OUTPUT_DIR, "Aligned.out.bam")
+STAR_PASS2_BAM_FILE = join(STAR_PASS2_OUTPUT_DIR, "Aligned.sortedByCoord.out.bam")
 STAR_PASS2_READCOUNT_FILE = join(STAR_PASS2_OUTPUT_DIR, "ReadsPerGene.out.tab")
-STAR_BAM_FILE = join(STAR_PE_OUTPUT_DIR, "Aligned.out.bam")
+STAR_BAM_FILE = join(STAR_PE_OUTPUT_DIR, "Aligned.sortedByCoord.out.bam")
 STAR_READCOUNT_FILE = join(STAR_PE_OUTPUT_DIR, "ReadsPerGene.out.tab")
 
 # set localrules
@@ -112,17 +112,17 @@ rule run_star_pe:
         "--limitSjdbInsertNsj 1200000 "
         "--outFileNamePrefix '{params.odir}' "
         "--outFilterIntronMotifs None "
-        "--outFilterMatchNminOverLread 0.33 "
+        "--outFilterMatchNminOverLread 0.66 "
         "--outFilterMismatchNmax 999 "
         "--outFilterMismatchNoverLmax 0.1 "
         "--outFilterMultimapNmax 20 "
-        "--outFilterScoreMinOverLread 0.33 "
+        "--outFilterScoreMinOverLread 0.66 "
         "--outFilterType BySJout "
         "--outSAMattrRGline ID:{wildcards.patient}.{wildcards.sample} "
         "PL:illumina SM:{wildcards.patient}.{wildcards.sample} LB:RNA "
         "--outSAMattributes NH HI AS nM NM ch "
         "--outSAMstrandField intronMotif "
-        "--outSAMtype BAM Unsorted "
+        "--outSAMtype BAM SortedByCoordinate "
         "--outSAMunmapped Within "
         "--quantMode GeneCounts "
         "--readFilesCommand zcat "
@@ -160,11 +160,11 @@ rule run_star_pe_pass1:
         "--limitSjdbInsertNsj 1200000 "
         "--outFileNamePrefix '{params.odir}' "
         "--outFilterIntronMotifs None "
-        "--outFilterMatchNminOverLread 0.33 "
+        "--outFilterMatchNminOverLread 0.66 "
         "--outFilterMismatchNmax 999 "
         "--outFilterMismatchNoverLmax 0.1 "
         "--outFilterMultimapNmax 20 "
-        "--outFilterScoreMinOverLread 0.33 "
+        "--outFilterScoreMinOverLread 0.66 "
         "--outSAMtype None "
         "--readFilesCommand zcat "
         "--sjdbGTFfile '{input.gtf}' "
@@ -229,7 +229,7 @@ rule run_star_pe_pass2:
         "PL:illumina SM:{wildcards.patient}.{wildcards.sample} LB:RNA "
         "--outSAMattributes NH HI AS nM NM ch "
         "--outSAMstrandField intronMotif "
-        "--outSAMtype BAM Unsorted "
+        "--outSAMtype BAM SortedByCoordinate "
         "--outSAMunmapped Within "
         "--quantMode GeneCounts "
         "--readFilesCommand zcat "
