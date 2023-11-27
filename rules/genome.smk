@@ -15,7 +15,7 @@ from os.path import join
 # URLs for downloading reference sequence and annotation files
 # Links for downloading GENCODE files
 GENCODE_HUMAN_BASE_URL = (
-    "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34")
+    "http://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34")
 GENCODE_CHR_GTF_URL = join(GENCODE_HUMAN_BASE_URL, "gencode.v34.annotation.gtf.gz")
 GENCODE_PRI_GTF_URL = join(GENCODE_HUMAN_BASE_URL, "gencode.v34.primary_assembly.annotation.gtf.gz")
 GENCODE_ALL_GTF_URL = join(GENCODE_HUMAN_BASE_URL, "gencode.v34.chr_patch_hapl_scaff.annotation.gtf.gz")
